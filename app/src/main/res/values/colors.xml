@@ -2,6 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="prim">#FF0000</color>
-    <color name="sec">#00FFFF</color>
+    <color name="prim">#8856E9</color>
+    <color name="sec">#9EBFF1</color>
+    <color name="tert">#5084E7</color>
+    <color name="error">#FF0000</color>
+    <color name="correct">#00FF00</color>
 </resources>
