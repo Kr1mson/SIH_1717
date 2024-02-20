@@ -3,12 +3,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Right">
-
-
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Right" />
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/header"
+            android:text="Translate"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/header"
+            android:padding="20dp"
+            android:background="@drawable/language_layout_bg"
+            android:id="@+id/language_layout">
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/source_spinner"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/swap"
+                android:background="@android:color/transparent"/>
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/target_spinner"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@id/language_layout"
+            android:padding="20dp"
+            android:layout_above="@id/translate_btn">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="top|left"
+                android:hint="Enter text to translate..."
+                android:textSize="40sp"
+                android:padding="10dp"
+                android:background="@drawable/rounded_edttxt"
+                android:alpha="0.6"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="40sp"
+                android:padding="10dp"
+                android:text="Translation"
+                android:background="@drawable/rounded_edttxt"
+                android:alpha="0.6"
+                />
+
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/translate_btn"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/prim"
+            android:text="Translate"
+            android:textColor="@color/white"
+            app:cornerRadius="28dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
+
+    </RelativeLayout>
+
 
 </FrameLayout>
