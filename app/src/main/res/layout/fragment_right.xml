@@ -55,12 +55,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="top|left"
+                android:gravity="top|start"
                 android:hint="Enter text to translate..."
                 android:textSize="40sp"
-                android:padding="10dp"
-                android:background="@drawable/rounded_edttxt"
-                android:alpha="0.6"/>
+                android:padding="20dp"
+                android:background="@drawable/rounded_edttxt" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"/>
@@ -69,10 +68,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textSize="40sp"
-                android:padding="10dp"
-                android:text="Translation"
+                android:padding="20dp"
+                android:hint="Translation"
                 android:background="@drawable/rounded_edttxt"
-                android:alpha="0.6"
+
                 />
 
         </LinearLayout>
