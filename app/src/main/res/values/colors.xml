@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="prim">#402c84</color>
     <color name="sec">#9EBFF1</color>
     <color name="tert">#5084E7</color>
     <color name="error">#FF0000</color>
     <color name="correct">#00FF00</color>
     <color name="grey">#d3d3d3</color>
+    <color name="middle_grey">#7F7F7F</color>
 </resources>
