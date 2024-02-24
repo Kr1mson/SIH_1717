@@ -8,6 +8,10 @@
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
 
     </style>
+    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/prim</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
 
