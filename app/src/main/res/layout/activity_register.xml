@@ -29,9 +29,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create your free Account"
+                android:text="@string/create_acc_txt"
                 android:textColor="@color/prim"
-                android:textSize="40dp"
+                android:textSize="40sp"
                 android:textStyle="bold" />
 
             <View
@@ -41,8 +41,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name:"
-                android:textSize="20dp"
+                android:text="@string/name_txt"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/sec"
-                    android:hint="Enter your Full Name"
+                    android:hint="@string/enter_name_txt"
                     android:inputType="text"
                     android:textColorHint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -69,8 +69,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email:"
-                android:textSize="20dp"
+                android:text="@string/email_txt"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -85,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/sec"
-                    android:hint="xyz@gmail.com"
+                    android:hint="@string/example_mail_txt"
                     android:inputType="textEmailAddress"
                     android:textColorHint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -97,8 +97,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password:"
-                android:textSize="20dp"
+                android:text="@string/password_txt"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -115,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/sec"
-                    android:hint="8 or more characters"
+                    android:hint="@string/pswd_instruction"
                     android:inputType="textPassword"
                     android:textColorHint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -127,8 +127,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Re-enter Password:"
-                android:textSize="20dp"
+                android:text="@string/re_pswd_txt"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -145,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/sec"
-                    android:hint="Confirm Password"
+                    android:hint="@string/confirm_pswd_txt"
                     android:inputType="textPassword"
                     android:textColorHint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -159,7 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:backgroundTint="@color/prim"
-                android:text="Create Account"
+                android:text="@string/create_acc_txt2"
                 android:textColor="@color/white"
                 app:cornerRadius="28dp" />
 
@@ -178,18 +178,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Already have an account?  "
+                    android:text="@string/already_acc_txt"
                     android:textColor="@color/tert"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/logintxt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:onClick="onLoginClick"
-                    android:text="Log In"
+                    android:text="@string/login_txt"
                     android:textColor="@color/prim"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>

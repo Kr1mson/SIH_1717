@@ -11,6 +11,8 @@
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/prim</item>
         <item name="boxStrokeWidth">2dp</item>
+        <item name="android:textColorHint">@color/tert</item>
+        <item name="hintTextAppearance">@color/sec</item>
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
