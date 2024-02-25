@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_txt"
             android:textAlignment="center"
-            android:textColor="@color/prim"
+            android:textColor="@color/tert"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -39,7 +39,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:src="@drawable/voiceversa_logo" />
+            android:src="@drawable/voiceversa_no_bg" />
 
         <View
             android:layout_width="match_parent"

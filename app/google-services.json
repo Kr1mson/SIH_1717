@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "902668864748",
+    "project_id": "voiceversa-76a7b",
+    "storage_bucket": "voiceversa-76a7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902668864748:android:f04a509ef9cb084511e9c9",
+        "android_client_info": {
+          "package_name": "com.example.voiceversa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902668864748-nh95itdef1tj6ihnee2tig2trboc0eq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUM_Ystz-aSqTAkCyT69G11vsRBzL_A9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902668864748-nh95itdef1tj6ihnee2tig2trboc0eq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
