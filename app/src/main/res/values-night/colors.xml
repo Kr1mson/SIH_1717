@@ -8,4 +8,5 @@
     <color name="error">#FF0000</color>
     <color name="correct">#00FF00</color>
     <color name="grey">#3b3b3b</color>
+    <color name="inverse">#FFFFFFFF</color>
 </resources>
