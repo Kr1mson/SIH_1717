@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 
 public class Home_Main extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
@@ -62,13 +64,32 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
         } else if (itemId == R.id.nav_settings) {
             Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
         } else if (itemId == R.id.nav_about) {
-            Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), About.class);
+            startActivity(intent);
         }else if (itemId == R.id.nav_home) {
-            Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+
         }else if (itemId == R.id.nav_edtProfile) {
             Toast.makeText(this, "Edit", Toast.LENGTH_SHORT).show();
         }else if (itemId == R.id.nav_logout) {
-            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+            MaterialAlertDialogBuilder dialog =new MaterialAlertDialogBuilder(this)
+                    .setTitle("Logging Out").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            SharedPreferences preferences = getSharedPreferences("user_credentials", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.remove("username");
+                            editor.remove("pswd");
+                            editor.apply();
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            startActivity(intent);
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).setMessage("Do you want to Log Out?");
+            dialog.show();
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
