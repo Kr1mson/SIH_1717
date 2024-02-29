@@ -50,10 +50,11 @@
             android:orientation="vertical"
             android:layout_below="@id/language_layout"
             android:padding="20dp"
-            android:layout_above="@id/translate_btn">
+            android:layout_alignParentBottom="true">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/source_txt"
                 android:layout_weight="1"
                 android:gravity="top|start"
                 android:hint="Enter text to translate..."
@@ -66,6 +67,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/target_txt"
                 android:layout_weight="1"
                 android:textSize="40sp"
                 android:padding="20dp"
@@ -75,16 +77,16 @@
                 />
 
         </LinearLayout>
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/translate_btn"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:backgroundTint="@color/prim"
-            android:text="Translate"
-            android:textColor="@color/white"
-            app:cornerRadius="28dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"/>
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/translate_btn"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:backgroundTint="@color/prim"-->
+<!--            android:text="Translate"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:cornerRadius="28dp"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_centerHorizontal="true"/>-->
 
 
     </RelativeLayout>
