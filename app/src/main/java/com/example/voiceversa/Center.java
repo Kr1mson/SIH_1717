@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,9 @@ public class Center extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_center, container, false);
+        TransitionInflater tinflater = TransitionInflater.from(requireContext());
+        setExitTransition(tinflater.inflateTransition(R.transition.fade_out));
+        setEnterTransition(tinflater.inflateTransition(R.transition.fade_out));
 
         caption = view.findViewById(R.id.caption_switch);
         settings = view.findViewById(R.id.caption_settings_layout);
@@ -183,18 +187,6 @@ public class Center extends Fragment {
 
         return view;
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, show the notification
-                showNotification();
-            } else {
-                // Permission denied, show a message or take appropriate action
-                Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
 
     private void toggleFontColor() {
@@ -244,20 +236,53 @@ public class Center extends Fragment {
             Toast.makeText(getContext(), "Please enter a valid size", Toast.LENGTH_SHORT).show();
         }
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, show the notification
+                showNotification();
+            } else {
+                // Permission denied, show a message or take appropriate action
+                Toast.makeText(mContext, "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     private void showNotification() {
         // Check if the permission is granted
-        if (getContext().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (mContext.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             // Permission not granted, request it
             requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, PERMISSION_REQUEST_CODE);
             return;
         }
 
         // Notification code
-        NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // Create notification channel
+        createNotificationChannel(notificationManager);
+
+        // Notification builder
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
+                .setSmallIcon(R.drawable.voiceversa_no_bg)
+                .setContentTitle("Captions Enabled")
+                .setContentText("Live Captions have been Enabled")
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // Set priority to high
+                .setOngoing(true); // Set notification as ongoing (non-dismissible)
+
+        // Show notification
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
+
+
+
+    private void cancelNotification() {
+        NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(NOTIFICATION_ID);
+    }
+
+    private void createNotificationChannel(NotificationManager notificationManager) {
         CharSequence name = "My Notification Channel";
         String description = "Channel Description";
         int importance = NotificationManager.IMPORTANCE_HIGH; // Set channel importance to high
@@ -265,42 +290,7 @@ public class Center extends Fragment {
         channel.setDescription(description);
         notificationManager.createNotificationChannel(channel);
 
-        // Intent to start the Home_Main activity
-        Intent homeIntent = new Intent(mContext, Home_Main.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, homeIntent, PendingIntent.FLAG_UPDATE_CURRENT| PendingIntent.FLAG_MUTABLE);
-
-        // Intent for Cancel button
-        Intent shareIntent = new Intent(mContext, NotificationReceiver.class);
-        shareIntent.setAction("ACTION_SHARE");
-        PendingIntent sharePendingIntent = PendingIntent.getBroadcast(mContext, 0, shareIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-
-        // Intent for End button
-        Intent sendIntent = new Intent(mContext, NotificationReceiver.class);
-        sendIntent.setAction("ACTION_SEND");
-        PendingIntent sendPendingIntent = PendingIntent.getBroadcast(mContext, 0, sendIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-
-        // Build notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
-                .setSmallIcon(R.drawable.voiceversa_no_bg)
-                .setContentTitle("Captions Enabled")
-                .setContentText("Live Captions have been Enabled")
-                .setPriority(NotificationCompat.PRIORITY_HIGH) // Set priority to high
-                .setCategory(NotificationCompat.CATEGORY_CALL) // Set category to call
-                .setOngoing(true)  // Set notification as ongoing (non-dismissible)
-                .setContentIntent(contentIntent) // Set the content intent
-                .addAction(android.R.drawable.ic_menu_share, "Pause", sharePendingIntent)
-                .addAction(android.R.drawable.ic_menu_send, "End", sendPendingIntent);
-
-        // Show notification
-        Notification notification = builder.build();
-        notificationManager.notify(NOTIFICATION_ID, notification);
     }
-
-    private void cancelNotification() {
-        NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(NOTIFICATION_ID);
-    }
-
 
 
 

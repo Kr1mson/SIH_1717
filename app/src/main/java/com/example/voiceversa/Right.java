@@ -1,6 +1,7 @@
 package com.example.voiceversa;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -32,6 +33,9 @@ public class Right extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_right, container, false);
+        TransitionInflater tinflater = TransitionInflater.from(requireContext());
+        setExitTransition(tinflater.inflateTransition(R.transition.slide_right));
+        setEnterTransition(tinflater.inflateTransition(R.transition.slide_right));
 
         source = view.findViewById(R.id.source_spinner);
         target = view.findViewById(R.id.target_spinner);
