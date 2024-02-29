@@ -75,6 +75,11 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
                     .setTitle("Logging Out").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            SharedPreferences preferences = getSharedPreferences("user_credentials", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.remove("username");
+                            editor.remove("pswd");
+                            editor.apply();
                             Intent intent = new Intent(getApplicationContext(), Login.class);
                             startActivity(intent);
                         }
