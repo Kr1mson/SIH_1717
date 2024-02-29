@@ -1,6 +1,16 @@
 package com.example.voiceversa;
 
 
+import static androidx.core.content.ContextCompat.getSystemService;
+import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -16,7 +26,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -31,7 +46,10 @@ public class Center extends Fragment {
     TextView example;
     float current_size,new_size;
     boolean white_font_selected = true, black_font_selected = false,grey_font_selected=false, black_bg_selected = true, white_bg_selected = false,grey_bg_selected=false;
-
+    private static final String CHANNEL_ID = "my_channel";
+    static final int NOTIFICATION_ID = 123;
+    private static final int PERMISSION_REQUEST_CODE = 123;
+    private Context mContext;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +82,8 @@ public class Center extends Fragment {
 
         source.setAdapter(source_adapter);
         target.setAdapter(target_adapter);
+
+
         size.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,13 +166,36 @@ public class Center extends Fragment {
                 settings.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
                 example.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
                 save.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
+                if (b) {
+                    showNotification();
 
+                } else {
+
+                    cancelNotification();
+                }
 
             }
         });
+        mContext = getContext();
+
+
+
 
         return view;
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, show the notification
+                showNotification();
+            } else {
+                // Permission denied, show a message or take appropriate action
+                Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     private void toggleFontColor() {
         if (black_font_selected) {
@@ -201,5 +244,72 @@ public class Center extends Fragment {
             Toast.makeText(getContext(), "Please enter a valid size", Toast.LENGTH_SHORT).show();
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+
+    private void showNotification() {
+        // Check if the permission is granted
+        if (getContext().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // Permission not granted, request it
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, PERMISSION_REQUEST_CODE);
+            return;
+        }
+
+        // Notification code
+        NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Create notification channel
+        CharSequence name = "My Notification Channel";
+        String description = "Channel Description";
+        int importance = NotificationManager.IMPORTANCE_HIGH; // Set channel importance to high
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+        channel.setDescription(description);
+        notificationManager.createNotificationChannel(channel);
+
+        // Intent to start the Home_Main activity
+        Intent homeIntent = new Intent(mContext, Home_Main.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, homeIntent, PendingIntent.FLAG_UPDATE_CURRENT| PendingIntent.FLAG_MUTABLE);
+
+        // Intent for Cancel button
+        Intent shareIntent = new Intent(mContext, NotificationReceiver.class);
+        shareIntent.setAction("ACTION_SHARE");
+        PendingIntent sharePendingIntent = PendingIntent.getBroadcast(mContext, 0, shareIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+
+        // Intent for End button
+        Intent sendIntent = new Intent(mContext, NotificationReceiver.class);
+        sendIntent.setAction("ACTION_SEND");
+        PendingIntent sendPendingIntent = PendingIntent.getBroadcast(mContext, 0, sendIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+
+        // Build notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
+                .setSmallIcon(R.drawable.voiceversa_no_bg)
+                .setContentTitle("Captions Enabled")
+                .setContentText("Live Captions have been Enabled")
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // Set priority to high
+                .setCategory(NotificationCompat.CATEGORY_CALL) // Set category to call
+                .setOngoing(true)  // Set notification as ongoing (non-dismissible)
+                .setContentIntent(contentIntent) // Set the content intent
+                .addAction(android.R.drawable.ic_menu_share, "Pause", sharePendingIntent)
+                .addAction(android.R.drawable.ic_menu_send, "End", sendPendingIntent);
+
+        // Show notification
+        Notification notification = builder.build();
+        notificationManager.notify(NOTIFICATION_ID, notification);
+    }
+
+    private void cancelNotification() {
+        NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(NOTIFICATION_ID);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }

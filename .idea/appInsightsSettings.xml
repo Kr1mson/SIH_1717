@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.voiceversa" />
+                  <option name="mobileSdkAppId" value="1:902668864748:android:f04a509ef9cb084511e9c9" />
+                  <option name="projectId" value="voiceversa-76a7b" />
+                  <option name="projectNumber" value="902668864748" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
