@@ -3,15 +3,15 @@
     <item
         android:id="@+id/Left"
         android:title="Left"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:icon="@drawable/analytics"/>
     <item
         android:id="@+id/Center"
         android:title="Center"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:icon="@drawable/caption"/>
     <item
         android:id="@+id/Right"
         android:title="Right"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:icon="@drawable/translate"/>
 
 
 
