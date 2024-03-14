@@ -27,12 +27,12 @@
             android:textStyle="bold"/>
 
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <pl.droidsonroids.gif.GifImageView
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:id="@+id/img_about"
         android:layout_below="@id/about_header"
-        android:src="@drawable/voiceversa_no_bg" />
+         android:src="@drawable/team"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,6 +45,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/namesLayout"
         android:orientation="vertical"
         android:layout_below="@id/meet"
         android:padding="10dp">
@@ -79,5 +80,23 @@
             android:visibility="invisible"/>
 
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact us at:"
+        android:id="@+id/contact"
+        android:layout_below="@id/namesLayout"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="agneya@brandfizz.com"
+        android:id="@+id/details_email"
+        android:layout_below="@id/contact"
+        android:textSize="15sp"
+        android:textAlignment="center" />
+
 
 </RelativeLayout>
