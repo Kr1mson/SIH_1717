@@ -61,12 +61,15 @@ public class Login extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 String passfromdb = snapshot.child(uniqueUsername).child("pswd").getValue(String.class);
+                                String namefromdb = snapshot.child(uniqueUsername).child("name").getValue(String.class);
                                 if (passfromdb.equals(pswd)) {
                                     Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
                                     SharedPreferences preferences = getSharedPreferences("user_credentials", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = preferences.edit();
                                     editor.putString("username", uniqueUsername);
                                     editor.putString("pswd", pswd);
+                                    editor.putString("email",email);
+                                    editor.putString("name",namefromdb);
                                     editor.apply();
 
                                     Intent intent = new Intent(getApplicationContext(), Home_Main.class);
