@@ -12,6 +12,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,8 +27,10 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
     Left left = new Left();
     Center center = new Center();
     Right right = new Right();
+    TextView name, email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -37,6 +42,15 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav,
                 R.string.close_nav);
+        View headerView = navigationView.getHeaderView(0);
+        SharedPreferences preferences_email = getSharedPreferences("user_credentials", MODE_PRIVATE);
+        String username = preferences_email.getString("name", null);
+        String emailid = preferences_email.getString("email", null);
+
+        name = headerView.findViewById(R.id.username);
+        email = headerView.findViewById(R.id.email_nav);
+        name.setText(username);
+        email.setText(emailid);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         if (savedInstanceState == null) {
