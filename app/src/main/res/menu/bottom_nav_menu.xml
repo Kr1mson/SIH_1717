@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/Left"
-        android:title="Left"
+        android:title="Analytics"
         android:icon="@drawable/analytics"/>
     <item
         android:id="@+id/Center"
-        android:title="Center"
+        android:title="Captions"
         android:icon="@drawable/caption"/>
     <item
         android:id="@+id/Right"
-        android:title="Right"
+        android:title="Translate"
         android:icon="@drawable/translate"/>
 
 
