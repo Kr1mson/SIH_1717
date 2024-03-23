@@ -51,16 +51,31 @@
             android:layout_below="@id/language_layout"
             android:padding="20dp"
             android:layout_alignParentBottom="true">
-            <EditText
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/source_txt"
-                android:layout_weight="1"
-                android:gravity="top|start"
-                android:hint="Enter text to translate..."
-                android:textSize="40sp"
-                android:padding="20dp"
-                android:background="@drawable/rounded_edttxt" />
+                android:layout_weight="1">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/source_txt"
+                    android:gravity="top|start"
+                    android:hint="Enter text to translate..."
+                    android:textSize="40sp"
+                    android:padding="20dp"
+                    android:background="@drawable/rounded_edttxt" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/mic_btn"
+                    android:src="@drawable/mic"
+                    android:background="@drawable/true_rounded_button"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="20dp"/>
+            </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"/>

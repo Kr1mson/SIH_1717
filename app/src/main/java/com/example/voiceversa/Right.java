@@ -1,10 +1,17 @@
 package com.example.voiceversa;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.transition.TransitionInflater;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -20,13 +27,20 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Objects;
 
 public class Right extends Fragment {
     public Right(){}
-
+    private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     Spinner source, target;
     EditText source_txt;
+    ImageButton mic;
     TextView target_txt;
 
     @Override
@@ -41,7 +55,7 @@ public class Right extends Fragment {
         target = view.findViewById(R.id.target_spinner);
         source_txt = view.findViewById(R.id.source_txt);
         target_txt = view.findViewById(R.id.target_txt);
-
+        mic=view.findViewById(R.id.mic_btn);
         String[] source_list = {"English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Mongolian", "Slovenian", "Swedish", "Tamil", "Turkish", "Chinese"};
         String[] target_list = {"English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Mongolian", "Slovenian", "Swedish", "Tamil", "Turkish", "Chinese"};
 
@@ -53,6 +67,28 @@ public class Right extends Fragment {
 
         source.setAdapter(source_adapter);
         target.setAdapter(target_adapter);
+        mic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent
+                        = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
+                        Locale.getDefault());
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text");
+
+                try {
+                    startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+                }
+                catch (Exception e) {
+                    Toast
+                            .makeText(getContext(), " " + e.getMessage(),
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
 
         source_txt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -74,4 +110,20 @@ public class Right extends Fragment {
 
         return view;
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                    @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
+            if (resultCode == RESULT_OK && data != null) {
+
+                ArrayList<String> result = data.getStringArrayListExtra(
+                        RecognizerIntent.EXTRA_RESULTS);
+                source_txt.setText(
+                        Objects.requireNonNull(result).get(0));
+            }
+        }
+    }
+
 }
