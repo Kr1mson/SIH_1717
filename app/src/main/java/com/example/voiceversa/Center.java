@@ -31,9 +31,11 @@ import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 
+
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class Center extends Fragment {
+
     int bgColor,fontColor;
     Spinner source,target;
     EditText size;
@@ -50,7 +52,9 @@ public class Center extends Fragment {
     boolean white_font_selected = true, black_font_selected = false,grey_font_selected=false, black_bg_selected = true, white_bg_selected = false,grey_bg_selected=false;
     private static final String CHANNEL_ID = "my_channel";
     static final int NOTIFICATION_ID = 123;
-    private static final int PERMISSION_REQUEST_CODE = 123;
+    private static final int PERMISSION_REQUEST_CODE1 = 123;
+    private static final int PERMISSION_REQUEST_CODE2 = 101;
+    private static final int PERMISSION_REQUEST_CODE3 = 202;
     private Context mContext;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -185,6 +189,7 @@ public class Center extends Fragment {
             }
         });
 
+
         mContext = getContext();
 
 
@@ -200,8 +205,26 @@ public class Center extends Fragment {
         settings.setVisibility(toggleState ? View.VISIBLE : View.INVISIBLE);
         example.setVisibility(toggleState ? View.VISIBLE : View.INVISIBLE);
         save.setVisibility(toggleState ? View.VISIBLE : View.INVISIBLE);
-        showNotification();
+
+        // Check permissions before showing notification
+        if (toggleState) {
+            checkPermissionsAndShowNotification();
+        }
     }
+    private void checkPermissionsAndShowNotification() {
+        if (mContext.checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                mContext.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // Permissions not granted, request them
+            requestPermissions(new String[]{
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.POST_NOTIFICATIONS
+            }, PERMISSION_REQUEST_CODE3);
+        } else {
+            // Permissions granted, show the notification
+            showNotification();
+        }
+    }
+
 
     @Override
     public void onPause() {
@@ -262,26 +285,35 @@ public class Center extends Fragment {
             Toast.makeText(getContext(), "Please enter a valid size", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, show the notification
+        if (requestCode == PERMISSION_REQUEST_CODE3) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                // Both permissions granted, show the notification
                 showNotification();
             } else {
-                // Permission denied, show a message or take appropriate action
-                Toast.makeText(mContext, "Permission denied", Toast.LENGTH_SHORT).show();
+                // Permissions denied, show a message or take appropriate action
+                Toast.makeText(mContext, "Permissions denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
 
     private void showNotification() {
         // Check if the permission is granted
         if (mContext.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             // Permission not granted, request it
-            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, PERMISSION_REQUEST_CODE);
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, PERMISSION_REQUEST_CODE1);
             return;
         }
+        if (mContext.checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            // Permission not granted, request it
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_REQUEST_CODE2);
+            return;
+        }
+
 
         // Get the shared preference value
         SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
