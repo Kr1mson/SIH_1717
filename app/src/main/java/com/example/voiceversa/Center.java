@@ -1,16 +1,15 @@
 package com.example.voiceversa;
 
-
-import static androidx.core.content.ContextCompat.getSystemService;
 import android.Manifest;
-import android.app.Notification;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
+
 import android.content.Context;
-import android.content.Intent;
+
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.util.TypedValue;
@@ -28,11 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -46,6 +43,10 @@ public class Center extends Fragment {
     ImageButton icr_size, dcr_size;
     TextView example;
     float current_size,new_size;
+    private static final String PREFS_NAME = "MyPrefs";
+    private static final String TOGGLE_STATE_KEY = "toggleState";
+    private SharedPreferences prefs;
+
     boolean white_font_selected = true, black_font_selected = false,grey_font_selected=false, black_bg_selected = true, white_bg_selected = false,grey_bg_selected=false;
     private static final String CHANNEL_ID = "my_channel";
     static final int NOTIFICATION_ID = 123;
@@ -71,7 +72,9 @@ public class Center extends Fragment {
         icr_size=view.findViewById(R.id.size_icr);
         dcr_size=view.findViewById(R.id.size_dcr);
         save=view.findViewById(R.id.save_settings);
-
+        prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        boolean savedState = prefs.getBoolean(TOGGLE_STATE_KEY, false);
+        caption.setChecked(savedState);
         example = view.findViewById(R.id.example_caption);
         size.setText(Float.toString(example.getTextSize()));
         source=view.findViewById(R.id.source_spinner);
@@ -163,23 +166,25 @@ public class Center extends Fragment {
                 toggleBgColor();
             }
         });
-
         caption.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(TOGGLE_STATE_KEY, b);
+                editor.apply();
+
                 settings.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
                 example.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
                 save.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
                 if (b) {
                     showNotification();
-
                 } else {
-
                     cancelNotification();
                 }
 
             }
         });
+
         mContext = getContext();
 
 
@@ -187,6 +192,27 @@ public class Center extends Fragment {
 
         return view;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Restore visibility based on toggle button state
+        boolean toggleState = prefs.getBoolean(TOGGLE_STATE_KEY, false);
+        settings.setVisibility(toggleState ? View.VISIBLE : View.INVISIBLE);
+        example.setVisibility(toggleState ? View.VISIBLE : View.INVISIBLE);
+        save.setVisibility(toggleState ? View.VISIBLE : View.INVISIBLE);
+        showNotification();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Save toggle button state
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(TOGGLE_STATE_KEY, caption.isChecked());
+        editor.apply();
+        cancelNotification();
+    }
+
 
 
     private void toggleFontColor() {
@@ -257,6 +283,16 @@ public class Center extends Fragment {
             return;
         }
 
+        // Get the shared preference value
+        SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        boolean isCaptionsEnabled = prefs.getBoolean(TOGGLE_STATE_KEY, false);
+
+        // Check if captions are enabled in shared preferences
+        if (!isCaptionsEnabled) {
+            // Captions are not enabled, so do not show the notification
+            return;
+        }
+
         // Notification code
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -277,9 +313,12 @@ public class Center extends Fragment {
 
 
 
+
     private void cancelNotification() {
-        NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(NOTIFICATION_ID);
+        if (!prefs.getBoolean(TOGGLE_STATE_KEY, false)) {
+            NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(NOTIFICATION_ID);
+        }
     }
 
     private void createNotificationChannel(NotificationManager notificationManager) {

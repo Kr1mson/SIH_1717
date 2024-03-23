@@ -61,7 +61,9 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.Center);
+
     }
+
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
 
