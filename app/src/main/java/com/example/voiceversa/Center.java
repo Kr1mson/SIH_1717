@@ -17,6 +17,7 @@
     import android.content.pm.PackageManager;
 
     import android.graphics.PixelFormat;
+    import android.graphics.drawable.ColorDrawable;
     import android.net.Uri;
     import android.os.Build;
     import android.os.Bundle;
@@ -50,7 +51,7 @@
 
     public class Center extends Fragment {
 
-        int bgColor,fontColor;
+        int bgColor,fontColor,textColor=0xFFFFFFFF,backgroundColor=0xFF000000;
         Spinner source,target;
         EditText size;
         SwitchMaterial caption;
@@ -58,7 +59,7 @@
         Button black_font, white_font, grey_font, black_bg, white_bg, grey_bg, save;
         ImageButton icr_size, dcr_size;
         TextView example;
-        float current_size,new_size;
+        float current_size,new_size,fontSize;
         private static final String PREFS_NAME = "MyPrefs";
         private static final String TOGGLE_STATE_KEY = "toggleState";
         private SharedPreferences prefs;
@@ -75,6 +76,7 @@
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
             View view = inflater.inflate(R.layout.fragment_center, container, false);
             TransitionInflater tinflater = TransitionInflater.from(requireContext());
             setExitTransition(tinflater.inflateTransition(R.transition.fade_out));
@@ -95,6 +97,7 @@
             boolean savedState = prefs.getBoolean(TOGGLE_STATE_KEY, false);
             caption.setChecked(savedState);
             example = view.findViewById(R.id.example_caption);
+            fontSize=example.getTextSize();
             size.setText(Float.toString(example.getTextSize()));
             source=view.findViewById(R.id.source_spinner);
             target=view.findViewById(R.id.target_spinner);
@@ -109,7 +112,15 @@
     
             source.setAdapter(source_adapter);
             target.setAdapter(target_adapter);
-
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    textColor = example.getCurrentTextColor();
+                    ColorDrawable colorDrawable = (ColorDrawable) example.getBackground();
+                    backgroundColor = colorDrawable.getColor();
+                    fontSize = example.getTextSize();
+                }
+            });
 
             size.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -193,9 +204,7 @@
                     editor.putBoolean(TOGGLE_STATE_KEY, b);
                     editor.apply();
 
-                    settings.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
-                    example.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
-                    save.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
+
                     if (b) {
                         showNotification();
                         if (checkDrawOverlayPermission()) {
@@ -222,6 +231,10 @@
             if (overlayView == null) {
                 LayoutInflater inflater = LayoutInflater.from(requireContext());
                 overlayView = inflater.inflate(R.layout.captions, null);
+                TextView captionTextView = overlayView.findViewById(R.id.caption_txt);
+                captionTextView.setTextColor(textColor);
+                captionTextView.setBackgroundColor(backgroundColor);
+                captionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
 
 
 
@@ -248,9 +261,7 @@
             super.onResume();
             // Restore visibility based on toggle button state
             boolean toggleState = prefs.getBoolean(TOGGLE_STATE_KEY, false);
-            settings.setVisibility(toggleState ? View.VISIBLE : View.INVISIBLE);
-            example.setVisibility(toggleState ? View.VISIBLE : View.INVISIBLE);
-            save.setVisibility(toggleState ? View.VISIBLE : View.INVISIBLE);
+
 
             // Check permissions before showing notification
             if (toggleState) {
