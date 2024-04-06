@@ -74,20 +74,31 @@
                     android:layout_margin="10dp"
                     android:layout_alignParentEnd="true"
                     android:padding="20dp"/>
+
             </RelativeLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/translate"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/prim"
+                android:text="@string/translate_txt"
+                android:textColor="@color/white"
+                app:cornerRadius="28dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"/>
+
             <TextView
+                android:id="@+id/target_txt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/target_txt"
                 android:layout_weight="1"
-                android:textSize="40sp"
-                android:padding="20dp"
-                android:hint="Translation"
                 android:background="@drawable/rounded_edttxt"
+                android:hint="Translation"
+                android:padding="20dp"
+                android:textSize="40sp"
 
                 />
 
