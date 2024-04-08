@@ -18,4 +18,5 @@
     <string name="confirm_pswd_txt">Confirm Password</string>
     <string name="create_acc_txt2">Create Account</string>
     <string name="already_acc_txt">Already have an account?</string>
+    <string name="translate_txt">Translate</string>
 </resources>

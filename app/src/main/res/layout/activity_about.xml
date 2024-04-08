@@ -32,7 +32,8 @@
         android:layout_height="300dp"
         android:id="@+id/img_about"
         android:layout_below="@id/about_header"
-         android:src="@drawable/team"/>
+         android:src="@drawable/team"
+        tools:ignore="MissingClass" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,7 +78,7 @@
             android:id="@+id/name4"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:visibility="invisible"/>
+            android:visibility="visible"/>
 
     </LinearLayout>
     <TextView
