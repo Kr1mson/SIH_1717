@@ -22,6 +22,9 @@
     import android.os.Build;
     import android.os.Bundle;
     import android.provider.Settings;
+    import android.speech.RecognitionListener;
+    import android.speech.RecognizerIntent;
+    import android.speech.SpeechRecognizer;
     import android.transition.TransitionInflater;
     import android.util.Log;
     import android.util.TypedValue;
@@ -49,22 +52,26 @@
     
     import com.google.android.material.switchmaterial.SwitchMaterial;
 
+    import java.util.ArrayList;
+
     public class Center extends Fragment {
 
-        int bgColor,fontColor,textColor=0xFFFFFFFF,backgroundColor=0xFF000000;
-        Spinner source,target;
+        int bgColor, fontColor, textColor = 0xFFFFFFFF, backgroundColor = 0xFF000000;
+        Spinner source, target;
         EditText size;
+        String finaltxt = "none yet";
         SwitchMaterial caption;
         RelativeLayout settings;
         Button black_font, white_font, grey_font, black_bg, white_bg, grey_bg, save;
         ImageButton icr_size, dcr_size;
-        TextView example;
-        float current_size,new_size,fontSize;
+        TextView example, header, captionTextView;
+        float current_size, new_size, fontSize;
         private static final String PREFS_NAME = "MyPrefs";
         private static final String TOGGLE_STATE_KEY = "toggleState";
         private SharedPreferences prefs;
-    
-        boolean white_font_selected = true, black_font_selected = false,grey_font_selected=false, black_bg_selected = true, white_bg_selected = false,grey_bg_selected=false;
+        private SpeechRecognizer speechRecognizer;
+
+        boolean white_font_selected = true, black_font_selected = false, grey_font_selected = false, black_bg_selected = true, white_bg_selected = false, grey_bg_selected = false;
         private static final String CHANNEL_ID = "my_channel";
         static final int NOTIFICATION_ID = 123;
         private static final int PERMISSION_REQUEST_CODE1 = 123;
@@ -73,6 +80,7 @@
         private Context mContext;
         private WindowManager windowManager;
         private View overlayView;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -82,34 +90,36 @@
             setExitTransition(tinflater.inflateTransition(R.transition.fade_out));
             setEnterTransition(tinflater.inflateTransition(R.transition.fade_out));
             caption = view.findViewById(R.id.caption_switch);
+            header = view.findViewById(R.id.header);
             settings = view.findViewById(R.id.caption_settings_layout);
             black_font = view.findViewById(R.id.black_font);
-            grey_font=view.findViewById(R.id.grey_font);
+            grey_font = view.findViewById(R.id.grey_font);
             white_font = view.findViewById(R.id.white_font);
             black_bg = view.findViewById(R.id.black_bg);
-            grey_bg=view.findViewById(R.id.grey_bg);
+            grey_bg = view.findViewById(R.id.grey_bg);
             white_bg = view.findViewById(R.id.white_bg);
-            size=view.findViewById(R.id.size_edttxt);
-            icr_size=view.findViewById(R.id.size_icr);
-            dcr_size=view.findViewById(R.id.size_dcr);
-            save=view.findViewById(R.id.save_settings);
+            size = view.findViewById(R.id.size_edttxt);
+            icr_size = view.findViewById(R.id.size_icr);
+            dcr_size = view.findViewById(R.id.size_dcr);
+            save = view.findViewById(R.id.save_settings);
             prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             boolean savedState = prefs.getBoolean(TOGGLE_STATE_KEY, false);
             caption.setChecked(savedState);
             example = view.findViewById(R.id.example_caption);
-            fontSize=example.getTextSize();
+            fontSize = example.getTextSize();
             size.setText(Float.toString(example.getTextSize()));
-            source=view.findViewById(R.id.source_spinner);
-            target=view.findViewById(R.id.target_spinner);
+            source = view.findViewById(R.id.source_spinner);
+            target = view.findViewById(R.id.target_spinner);
             windowManager = (WindowManager) requireActivity().getSystemService(Context.WINDOW_SERVICE);
-            String[] source_list = {"English","Hindi","Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Mongolian", "Slovenian", "Swedish", "Tamil", "Turkish", "Chinese"};
-            String[] target_list = {"English","Hindi","Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Mongolian", "Slovenian", "Swedish", "Tamil", "Turkish", "Chinese"};
+            String[] source_list = {"English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Mongolian", "Slovenian", "Swedish", "Tamil", "Turkish", "Chinese"};
+            String[] target_list = {"English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Mongolian", "Slovenian", "Swedish", "Tamil", "Turkish", "Chinese"};
             ArrayAdapter<String> source_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, source_list);
             ArrayAdapter<String> target_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, target_list);
+            speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getContext());
 
             source_adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
             target_adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-    
+
             source.setAdapter(source_adapter);
             target.setAdapter(target_adapter);
             save.setOnClickListener(new View.OnClickListener() {
@@ -140,13 +150,13 @@
                     decreaseTextSize();
                 }
             });
-    
+
             black_font.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     black_font_selected = true;
                     white_font_selected = false;
-                    grey_bg_selected=false;
+                    grey_bg_selected = false;
                     toggleFontColor();
                 }
             });
@@ -155,27 +165,27 @@
                 public void onClick(View v) {
                     black_font_selected = false;
                     white_font_selected = false;
-                    grey_bg_selected=true;
+                    grey_bg_selected = true;
                     toggleFontColor();
                 }
             });
-    
+
             white_font.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     black_font_selected = false;
                     white_font_selected = true;
-                    grey_font_selected=true;
+                    grey_font_selected = true;
                     toggleFontColor();
                 }
             });
-    
+
             black_bg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     black_bg_selected = true;
                     white_bg_selected = false;
-                    grey_bg_selected=false;
+                    grey_bg_selected = false;
                     toggleBgColor();
                 }
             });
@@ -184,7 +194,7 @@
                 public void onClick(View v) {
                     black_bg_selected = false;
                     white_bg_selected = false;
-                    grey_bg_selected=true;
+                    grey_bg_selected = true;
                     toggleBgColor();
                 }
             });
@@ -192,46 +202,57 @@
                 @Override
                 public void onClick(View v) {
                     black_bg_selected = false;
-                    grey_bg_selected=false;
+                    grey_bg_selected = false;
                     white_bg_selected = true;
                     toggleBgColor();
                 }
             });
             caption.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean(TOGGLE_STATE_KEY, b);
+                    editor.putBoolean(TOGGLE_STATE_KEY, isChecked);
                     editor.apply();
 
-
-                    if (b) {
+                    if (isChecked) {
                         showNotification();
                         if (checkDrawOverlayPermission()) {
                             addOverlayView();
+                            startSpeechRecognition();
                         }
                     } else {
                         cancelNotification();
                         removeOverlayView();
+                        stopSpeechRecognition();
                     }
-
                 }
             });
-    
-    
-            mContext = getContext();
+
+            if (caption.isChecked()) {
+                startSpeechRecognition();
+            }
+
+
+
+        mContext =getContext();
     
     
     
     
             return view;
+    }
+
+
+        private void stopSpeechRecognition() {
+            speechRecognizer.stopListening();
         }
         @SuppressLint("ClickableViewAccessibility")
         private void addOverlayView() {
             if (overlayView == null) {
                 LayoutInflater inflater = LayoutInflater.from(requireContext());
                 overlayView = inflater.inflate(R.layout.captions, null);
-                TextView captionTextView = overlayView.findViewById(R.id.caption_txt);
+                captionTextView = overlayView.findViewById(R.id.caption_txt);
+                captionTextView.setText(finaltxt);
                 captionTextView.setTextColor(textColor);
                 captionTextView.setBackgroundColor(backgroundColor);
                 captionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
@@ -249,6 +270,87 @@
                 windowManager.addView(overlayView, params);
             }
         }
+        private void startSpeechRecognition() {
+            Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+            speechRecognizer.setRecognitionListener(new RecognitionListener() {
+                @Override
+                public void onReadyForSpeech(Bundle bundle) {
+
+                }
+
+                @Override
+                public void onBeginningOfSpeech() {
+
+                }
+
+                @Override
+                public void onRmsChanged(float v) {
+
+                }
+
+                @Override
+                public void onBufferReceived(byte[] bytes) {
+
+                }
+
+                @Override
+                public void onEndOfSpeech() {
+
+                }
+
+                @Override
+                public void onError(int i) {
+
+                }
+
+                @Override
+
+                public void onResults(Bundle results) {
+                    ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                    if (matches != null && !matches.isEmpty()) {
+                        finaltxt = matches.get(0);
+                        if (captionTextView != null) {
+                            captionTextView.setText(finaltxt);
+                        }
+                    }
+                    // Continue listening for speech
+                    startSpeechRecognition();
+                }
+
+
+                @Override
+                public void onPartialResults(Bundle bundle) {
+
+                }
+
+                @Override
+                public void onSegmentResults(@NonNull Bundle segmentResults) {
+                    RecognitionListener.super.onSegmentResults(segmentResults);
+                }
+
+                @Override
+                public void onEndOfSegmentedSession() {
+                    RecognitionListener.super.onEndOfSegmentedSession();
+                }
+
+                @Override
+                public void onLanguageDetection(@NonNull Bundle results) {
+                    RecognitionListener.super.onLanguageDetection(results);
+                }
+
+                @Override
+                public void onEvent(int i, Bundle bundle) {
+
+                }
+
+            });
+
+            speechRecognizer.startListening(speechRecognizerIntent);
+        }
+
+
 
         private void removeOverlayView() {
             if (overlayView != null) {
@@ -275,7 +377,8 @@
                 // Permissions not granted, request them
                 requestPermissions(new String[]{
                         Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.POST_NOTIFICATIONS
+                        Manifest.permission.POST_NOTIFICATIONS,
+                        Manifest.permission.INTERNET
                 }, PERMISSION_REQUEST_CODE3);
             } else {
                 // Permissions granted, show the notification
