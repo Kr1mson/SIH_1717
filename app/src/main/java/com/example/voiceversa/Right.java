@@ -60,7 +60,7 @@ public class Right extends Fragment {
     ImageButton mic;
     TextView target_txt;
 
-    String url = "http://192.168.1.13:5000/translate";
+    String url = "http://127.0.0.1:5000/translate";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

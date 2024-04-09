@@ -52,15 +52,16 @@
                 android:layout_height="wrap_content"
                 app:boxStrokeColor="@color/prim">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/name_edtxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/sec"
-                    android:hint="@string/enter_name_txt"
-                    android:inputType="text"
-                    android:textColorHint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_edtxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/sec"
+                android:hint="@string/enter_name_txt"
+                android:inputType="text"
+                android:textColorHint="@color/black" />
 
             <View
                 android:layout_width="match_parent"
