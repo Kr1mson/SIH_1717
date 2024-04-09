@@ -84,7 +84,8 @@
                 android:backgroundTint="@color/prim"
                 android:text="@string/translate_txt"
                 android:textColor="@color/white"
-                app:cornerRadius="28dp" />
+                app:cornerRadius="28dp"
+                android:visibility="gone"/>
 
             <View
                 android:layout_width="match_parent"
