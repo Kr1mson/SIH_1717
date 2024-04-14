@@ -20,26 +20,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;import android.os.Bundle;
+import android.widget.TextView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
@@ -48,17 +35,13 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguag
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.Locale;
-import java.util.Map;
+
 import java.util.Objects;
 
-import okhttp3.OkHttpClient;
 
 public class Right extends Fragment {
     public Right(){}
@@ -67,7 +50,6 @@ public class Right extends Fragment {
     int languageCode, fromlanguageCode, tolanguageCode = 0;
     Spinner source, target;
     EditText source_txt;
-    Button translate;
     ImageButton mic;
     TextView target_txt;
 
@@ -172,7 +154,7 @@ public class Right extends Fragment {
         source_txt = view.findViewById(R.id.source_txt);
         target_txt = view.findViewById(R.id.target_txt);
         mic=view.findViewById(R.id.mic_btn);
-        translate = view.findViewById(R.id.translate);
+
         String[] source_list = {"From","English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
         String[] target_list = {"To","English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
 
@@ -235,9 +217,17 @@ public class Right extends Fragment {
             }
         });
 
-        translate.setOnClickListener(new View.OnClickListener() {
+
+
+
+        source_txt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not used
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 target_txt.setText("");
                 if(source_txt.getText().toString().isEmpty()){
                     Toast.makeText(getContext(),"Please enter text for translation",Toast.LENGTH_SHORT).show();
@@ -250,19 +240,6 @@ public class Right extends Fragment {
                 else{
                     translateText(fromlanguageCode,tolanguageCode,source_txt.getText().toString());
                 }
-
-            }
-        });
-
-        source_txt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not used
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
