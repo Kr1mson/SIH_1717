@@ -60,6 +60,8 @@
     import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 
     import java.util.ArrayList;
+    import java.util.HashSet;
+    import java.util.Set;
 
     public class Center extends Fragment {
 
@@ -119,8 +121,8 @@
             source = view.findViewById(R.id.source_spinner);
             target = view.findViewById(R.id.target_spinner);
             windowManager = (WindowManager) requireActivity().getSystemService(Context.WINDOW_SERVICE);
-            String[] source_list = {"From","English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
-            String[] target_list = {"To","English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
+            String[] source_list = {"From","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu", "Urdu", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
+            String[] target_list = {"To","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu", "Urdu", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
             ArrayAdapter<String> source_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, source_list);
             ArrayAdapter<String> target_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, target_list);
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getContext());
@@ -603,6 +605,7 @@
                     translator.translate(source_txt).addOnSuccessListener(new OnSuccessListener<String>() {
                         @Override
                         public void onSuccess(String s) {
+                            addModelNameToSharedPreferences(fromlanguageCode,tolanguageCode);
                             captionTextView.setText(s);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -628,6 +631,24 @@
                     break;
                 case "Hindi":
                     languageCode = FirebaseTranslateLanguage.HI;
+                    break;
+                case "Gujarati":
+                    languageCode = FirebaseTranslateLanguage.GU;
+                    break;
+                case "Kannada":
+                    languageCode = FirebaseTranslateLanguage.KN;
+                    break;
+                case "Marathi":
+                    languageCode = FirebaseTranslateLanguage.MR;
+                    break;
+                case "Telugu":
+                    languageCode = FirebaseTranslateLanguage.TE;
+                    break;
+                case "Urdu":
+                    languageCode = FirebaseTranslateLanguage.UR;
+                    break;
+                case "Tamil":
+                    languageCode = FirebaseTranslateLanguage.TA;
                     break;
                 case "Arabic":
                     languageCode = FirebaseTranslateLanguage.AR;
@@ -662,9 +683,7 @@
                 case "Swedish":
                     languageCode = FirebaseTranslateLanguage.SV;
                     break;
-                case "Tamil":
-                    languageCode = FirebaseTranslateLanguage.TA;
-                    break;
+
                 case "Turkish":
                     languageCode = FirebaseTranslateLanguage.TR;
                     break;
@@ -672,6 +691,31 @@
                     languageCode = 0;
             }
             return languageCode;
+        }
+        private void addModelNameToSharedPreferences(int sourceLanguage, int targetLanguage) {
+
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("downloaded_models", Context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            // Create a copy of the set retrieved from SharedPreferences (avoid modifying original)
+            Set<String> currentModelNames = new HashSet<>(sharedPreferences.getStringSet("downloaded_models", new HashSet<>()));
+
+            // Convert language codes to model names (assuming a function for this)
+            String model1= String.valueOf(sourceLanguage);
+            String model2 = String.valueOf(targetLanguage);
+            Toast.makeText(getContext(), "model1="+model1, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "model2="+model2, Toast.LENGTH_SHORT).show();
+            // Add the new model names to the copy
+            currentModelNames.add(model1);
+            if (!model1.equals(model2)) {
+                currentModelNames.add(model2);
+            }
+
+            // Store the updated set back to SharedPreferences
+            editor.putStringSet("downloaded_models", currentModelNames);
+
+            editor.apply();
         }
 
 

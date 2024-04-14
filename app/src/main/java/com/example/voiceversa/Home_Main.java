@@ -78,7 +78,8 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
             return true;
 
         } else if (itemId == R.id.nav_settings) {
-            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), Settings.class);
+            startActivity(intent);
         } else if (itemId == R.id.nav_about) {
             Intent intent = new Intent(getApplicationContext(), About.class);
             startActivity(intent);

@@ -2,7 +2,9 @@ package com.example.voiceversa;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.transition.TransitionInflater;
@@ -38,9 +40,11 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOption
 
 import java.util.ArrayList;
 
+import java.util.HashSet;
 import java.util.Locale;
 
 import java.util.Objects;
+import java.util.Set;
 
 
 public class Right extends Fragment {
@@ -66,9 +70,11 @@ public class Right extends Fragment {
         translator.downloadModelIfNeeded(conditions).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
+
                 translator.translate(source_txt).addOnSuccessListener(new OnSuccessListener<String>() {
                     @Override
                     public void onSuccess(String s) {
+                        addModelNameToSharedPreferences(fromlanguageCode,tolanguageCode);
                         target_txt.setText(s);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -94,6 +100,24 @@ public class Right extends Fragment {
                 break;
             case "Hindi":
                 languageCode = FirebaseTranslateLanguage.HI;
+                break;
+            case "Gujarati":
+                languageCode = FirebaseTranslateLanguage.GU;
+                break;
+            case "Kannada":
+                languageCode = FirebaseTranslateLanguage.KN;
+                break;
+            case "Marathi":
+                languageCode = FirebaseTranslateLanguage.MR;
+                break;
+            case "Telugu":
+                languageCode = FirebaseTranslateLanguage.TE;
+                break;
+            case "Urdu":
+                languageCode = FirebaseTranslateLanguage.UR;
+                break;
+            case "Tamil":
+                languageCode = FirebaseTranslateLanguage.TA;
                 break;
             case "Arabic":
                 languageCode = FirebaseTranslateLanguage.AR;
@@ -128,9 +152,7 @@ public class Right extends Fragment {
             case "Swedish":
                 languageCode = FirebaseTranslateLanguage.SV;
                 break;
-            case "Tamil":
-                languageCode = FirebaseTranslateLanguage.TA;
-                break;
+
             case "Turkish":
                 languageCode = FirebaseTranslateLanguage.TR;
                 break;
@@ -155,8 +177,8 @@ public class Right extends Fragment {
         target_txt = view.findViewById(R.id.target_txt);
         mic=view.findViewById(R.id.mic_btn);
 
-        String[] source_list = {"From","English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
-        String[] target_list = {"To","English", "Hindi", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
+        String[] source_list = {"From","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu", "Urdu", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
+        String[] target_list = {"To","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu", "Urdu", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
 
         ArrayAdapter<String> source_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, source_list);
         ArrayAdapter<String> target_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, target_list);
@@ -264,6 +286,31 @@ public class Right extends Fragment {
                         Objects.requireNonNull(result).get(0));
             }
         }
+    }
+    private void addModelNameToSharedPreferences(int sourceLanguage, int targetLanguage) {
+
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("downloaded_models", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Create a copy of the set retrieved from SharedPreferences (avoid modifying original)
+        Set<String> currentModelNames = new HashSet<>(sharedPreferences.getStringSet("downloaded_models", new HashSet<>()));
+
+        // Convert language codes to model names (assuming a function for this)
+        String model1= String.valueOf(sourceLanguage);
+        String model2 = String.valueOf(targetLanguage);
+        Toast.makeText(getContext(), "model1="+model1, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "model2="+model2, Toast.LENGTH_SHORT).show();
+        // Add the new model names to the copy
+        currentModelNames.add(model1);
+        if (!model1.equals(model2)) {
+            currentModelNames.add(model2);
+        }
+
+        // Store the updated set back to SharedPreferences
+        editor.putStringSet("downloaded_models", currentModelNames);
+
+        editor.apply();
     }
 
 }
