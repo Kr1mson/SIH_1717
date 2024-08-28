@@ -35,8 +35,7 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
         setContentView(R.layout.activity_home_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //Warning nullptr
+        toolbar.setNavigationIcon(R.drawable.voiceversa_logo);
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
