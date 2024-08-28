@@ -139,6 +139,7 @@
                     ColorDrawable colorDrawable = (ColorDrawable) example.getBackground();
                     backgroundColor = colorDrawable.getColor();
                     fontSize = example.getTextSize();
+                    Toast.makeText(getContext(), "Saved Successfully", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -572,7 +573,7 @@
             notificationManager.createNotificationChannel(channel);
     
         }
-        private static int REQUEST_CODE = 1;
+        private static final int REQUEST_CODE = 1;
         private boolean checkDrawOverlayPermission() {
             if (!Settings.canDrawOverlays(mContext)) {
                 Log.d(TAG, "canDrawOverlays NOK");
@@ -704,8 +705,7 @@
             // Convert language codes to model names (assuming a function for this)
             String model1= String.valueOf(sourceLanguage);
             String model2 = String.valueOf(targetLanguage);
-            Toast.makeText(getContext(), "model1="+model1, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getContext(), "model2="+model2, Toast.LENGTH_SHORT).show();
+
             // Add the new model names to the copy
             currentModelNames.add(model1);
             if (!model1.equals(model2)) {

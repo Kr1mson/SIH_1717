@@ -11,8 +11,8 @@ import java.util.List;
 
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
 
-    private List<String> modelNames;
-    private Context context;
+    private final List<String> modelNames;
+    private final Context context;
     TextView lang_name;
 
     public SettingsAdapter(Context context, List<String> modelNames) {

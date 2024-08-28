@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.17")
     implementation("com.google.android.material:material:1.11.0")

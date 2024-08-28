@@ -10,4 +10,5 @@
     <color name="grey">#d3d3d3</color>
     <color name="middle_grey">#7F7F7F</color>
     <color name="inverse">#000000</color>
+    <color name="Transparent">#00000000</color>
 </resources>
