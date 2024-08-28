@@ -1,6 +1,6 @@
 package com.example.voiceversa;
 
-import static com.example.voiceversa.Center.NOTIFICATION_ID;
+import static com.example.voiceversa.Right.NOTIFICATION_ID;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;

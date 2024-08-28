@@ -67,19 +67,35 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Agneya Mishra"
+            android:text="Kshitiz Saxena"
             android:id="@+id/name3"
             android:textSize="15sp"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Daksh Rawat"
+            android:text="Aditya Sharma"
             android:id="@+id/name4"
             android:textSize="15sp"
             android:textStyle="bold"
             android:visibility="visible"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aryaman Gupta"
+            android:id="@+id/name5"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="visible"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dishita Chaudhary"
+            android:id="@+id/name6"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="visible"/>
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -93,7 +109,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="agneya@brandfizz.com"
+        android:text="singhshivain4@gmail.com"
         android:id="@+id/details_email"
         android:layout_below="@id/contact"
         android:textSize="15sp"

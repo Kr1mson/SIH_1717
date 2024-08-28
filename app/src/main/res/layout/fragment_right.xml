@@ -4,15 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Right">
+    tools:context=".Center">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/constraint_right"
+        android:background="@drawable/gradient_list">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/header"
-            android:text="Translate"
+            android:text="Captions"
             android:textSize="40sp"
             android:textStyle="bold"
             android:layout_centerInParent="true"
@@ -20,112 +28,232 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/header"
-            android:padding="20dp"
-            android:background="@drawable/language_layout_bg"
-            android:id="@+id/language_layout">
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/source_spinner"
-                android:layout_weight="1"
-                android:textAlignment="center"/>
-            <ImageButton
+            android:id="@+id/enable_txt_layout"
+            android:layout_below="@id/header">
+            <TextView
+                android:id="@+id/enable_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/swap"
-                android:background="@android:color/transparent"/>
-            <Spinner
+                android:padding="20dp"
+                android:text="Enable Captions"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:textStyle="bold" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/target_spinner"
                 android:layout_weight="1"
-                android:textAlignment="center"/>
+                android:id="@+id/caption_switch"
+                android:padding="20dp"/>
 
         </LinearLayout>
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/language_layout"
-            android:padding="20dp"
+            android:layout_height="1dp"
+            android:id="@+id/seperator"
+            android:layout_below="@id/enable_txt_layout"
+            android:background="@color/prim"/>
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/enable_txt_layout"
             android:layout_alignParentBottom="true">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/source_txt"
-                    android:gravity="top|start"
-                    android:hint="Enter text to translate..."
-                    android:textSize="40sp"
-                    android:padding="20dp"
-                    android:background="@drawable/rounded_edttxt" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/mic_btn"
-                    android:src="@drawable/mic"
-                    android:backgroundTint="@color/Transparent"
+                android:layout_height="wrap_content"
+                android:id="@+id/caption_settings_layout"
 
-                    android:background="@drawable/true_rounded_button"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:layout_alignParentStart="true"
-                    android:padding="20dp"/>
-
-            </RelativeLayout>
-
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                >
+                <!--android:visibility="invisible"-->
                 <TextView
-                    android:id="@+id/target_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/language_layout_header"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="Choose the Languages"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_edttxt"
-                    android:hint="Translation"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:padding="20dp"
-                    android:textSize="40sp"
+                    android:layout_below="@id/language_layout_header"
+                    android:background="@drawable/language_layout_bg"
+                    android:id="@+id/language_layout">
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/source_spinner"
+                        android:layout_weight="1"
+                        android:textAlignment="center"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/swap"
+                        android:background="@android:color/transparent"/>
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/target_spinner"
+                        android:layout_weight="1"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:id="@+id/size_layout"
+                    android:layout_below="@id/language_layout">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Font Size"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"/>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/size_edttxt"
+                        android:layout_weight="1"
+                        android:hint="Size"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/size_icr"
+                        android:layout_weight="1"
+                        android:src="@drawable/text_increase"
+                        android:background="@drawable/rounded_button"/>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/size_dcr"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/text_decrease"
+                        android:background="@drawable/rounded_button"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:id="@+id/caption_color_layout"
+                    android:layout_below="@id/size_layout">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Font Color"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/black_font"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/grey_font"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/middle_grey"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/white_font"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/white"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
-                    />
-                <ImageButton
-                    android:layout_width="wrap_content"
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/speak_btn"
-                    android:src="@drawable/speak"
-                    android:background="@drawable/true_rounded_button"
-                    android:backgroundTint="@color/Transparent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:layout_alignParentStart="true"
-                    android:padding="20dp"/>
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/paste_btn"
-                    android:src="@drawable/paste"
-                    android:backgroundTint="@color/Transparent"
-                    android:background="@drawable/true_rounded_button"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="85dp"
-                    android:layout_marginBottom="10dp"
-                    android:padding="20dp"/>
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:id="@+id/bg_color_layout"
+                    android:layout_below="@id/caption_color_layout">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Background Color"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/black_bg"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/grey_bg"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/middle_grey"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/white_bg"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/white"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+
+                </LinearLayout>
+
+
             </RelativeLayout>
-        </LinearLayout>
+        </ScrollView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:id="@+id/example_caption"
+            android:textColor="@color/white"
+            android:background="@color/black"
+            android:layout_above="@id/save_settings"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+            android:text="Example Text Caption"
+            android:textAlignment="center" />
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/save_settings"
+
+            android:textColor="@color/white"
+            android:backgroundTint="@color/prim"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:text="Save"/>
 
     </RelativeLayout>
+
 
 
 </FrameLayout>
