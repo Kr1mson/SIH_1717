@@ -81,6 +81,7 @@
         ImageButton mic;
         TextView target_txt;
 
+
         String url = "http://127.0.0.1:5000/translate";
 
         private void translateText(int fromlanguageCode, int tolanguageCode, String source_txt){
@@ -192,7 +193,6 @@
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_center, container, false);
             ConstraintLayout constraintLayout = view.findViewById(R.id.constraint_center);
-
             AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
             animationDrawable.setEnterFadeDuration(2500);
             animationDrawable.setExitFadeDuration(5000);
@@ -218,6 +218,8 @@
 
             source.setAdapter(source_adapter);
             target.setAdapter(target_adapter);
+
+
 
             source.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -341,5 +343,6 @@
 
             editor.apply();
         }
+
 
     }
