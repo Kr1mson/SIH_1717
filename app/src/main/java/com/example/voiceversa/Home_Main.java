@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Home_Main extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
@@ -91,11 +92,7 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
                     .setTitle("Logging Out").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            SharedPreferences preferences = getSharedPreferences("user_credentials", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.remove("username");
-                            editor.remove("pswd");
-                            editor.apply();
+                            FirebaseAuth.getInstance().signOut();
                             Intent intent = new Intent(getApplicationContext(), Login.class);
                             startActivity(intent);
                         }
