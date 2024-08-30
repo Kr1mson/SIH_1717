@@ -11,11 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +25,7 @@ public class Login extends AppCompatActivity {
     Button login;
     EditText Email,Pswd;
     public static String sharedname;
-    FirebaseAuth fAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +34,7 @@ public class Login extends AppCompatActivity {
         login = findViewById(R.id.login);
         Email = findViewById(R.id.email_edtxt);
         Pswd = findViewById(R.id.pswd_edtxt);
-        fAuth=FirebaseAuth.getInstance();
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,20 +54,7 @@ public class Login extends AppCompatActivity {
                                 String passfromdb = snapshot.child(uniqueUsername).child("pswd").getValue(String.class);
                                 String namefromdb = snapshot.child(uniqueUsername).child("name").getValue(String.class);
                                 if (passfromdb.equals(pswd)) {
-                                    fAuth.signInWithEmailAndPassword(email,pswd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if(task.isSuccessful()){
-                                                FirebaseUser user = fAuth.getCurrentUser();
-                                                if (user != null) {
-                                                    checkEmailVerification(user);
-                                                }
 
-                                            }else{
-                                                Toast.makeText(Login.this, "Failed to login", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
 
 
                                 } else {
@@ -110,28 +93,7 @@ public class Login extends AppCompatActivity {
         Intent i_signup=new Intent(getApplicationContext(),Register.class);
         startActivity(i_signup);
     }
-    private void checkEmailVerification(FirebaseUser user) {
-        if (user.isEmailVerified()) {
-            // Email is verified, proceed to the next activity
-            Toast.makeText(Login.this, "Welcome! Login successful.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Login.this, Home_Main.class);
-            startActivity(intent);
-            finish();
-        } else {
-            // Email is not verified, prompt the user
-            Toast.makeText(Login.this, "Please verify your email address.", Toast.LENGTH_SHORT).show();
-            // Optionally, you can send another verification email
-            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(Login.this, "Verification email sent again. Please check your email.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Login.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }
+
+
 
 }

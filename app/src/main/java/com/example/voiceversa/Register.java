@@ -13,16 +13,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
     Button signup;
     EditText Name, Email, Password, RePassword;
-    FirebaseAuth fAuth;
+
     FirebaseDatabase userdb;
     DatabaseReference user_ref;
 
@@ -37,7 +35,7 @@ public class Register extends AppCompatActivity {
         Email=findViewById(R.id.email_signup_edtxt);
         Password=findViewById(R.id.pswd_signup_edtxt);
         RePassword=findViewById(R.id.repswd_edtxt);
-        fAuth=FirebaseAuth.getInstance();
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,32 +60,7 @@ public class Register extends AppCompatActivity {
                                     Email.setText("");
                                     Password.setText("");
                                     RePassword.setText("");
-                                    fAuth.createUserWithEmailAndPassword(email,pswd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if(task.isSuccessful()){
-                                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                                user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if(task.isSuccessful()){
-                                                            Toast.makeText(Register.this, "Verification email sent.", Toast.LENGTH_SHORT).show();
-                                                            Intent i1 = new Intent(getApplicationContext(), Login.class);
-                                                            startActivity(i1);
-                                                            finish();
-                                                        }else{
-                                                            Toast.makeText(Register.this, "Error in email verification", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-                                                });
 
-
-
-                                            }else{
-                                                Toast.makeText(Register.this, "error!", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
 
                                 }
                             });

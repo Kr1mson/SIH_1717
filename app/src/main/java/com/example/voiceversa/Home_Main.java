@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
+
 
 public class Home_Main extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
@@ -88,7 +88,8 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
         }else if (itemId == R.id.nav_edtProfile) {
             Toast.makeText(this, "Edit", Toast.LENGTH_SHORT).show();
         }else if (itemId == R.id.nav_logout) {
-            MaterialAlertDialogBuilder dialog =new MaterialAlertDialogBuilder(this)
+            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+            /*MaterialAlertDialogBuilder dialog =new MaterialAlertDialogBuilder(this)
                     .setTitle("Logging Out").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -102,7 +103,7 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
 
                         }
                     }).setMessage("Do you want to Log Out?");
-            dialog.show();
+            dialog.show();*/
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
