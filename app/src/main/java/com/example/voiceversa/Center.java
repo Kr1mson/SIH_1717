@@ -81,7 +81,6 @@
         ImageButton mic;
         TextView target_txt;
 
-        String url = "http://127.0.0.1:5000/translate";
 
         private void translateText(int fromlanguageCode, int tolanguageCode, String source_txt){
             target_txt.setText("Translating..");
