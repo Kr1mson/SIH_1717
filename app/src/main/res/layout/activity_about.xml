@@ -32,7 +32,7 @@
         android:layout_height="300dp"
         android:id="@+id/img_about"
         android:layout_below="@id/about_header"
-         android:src="@drawable/team"
+         android:src="@drawable/loader_vv2"
         tools:ignore="MissingClass" />
     <TextView
         android:layout_width="match_parent"

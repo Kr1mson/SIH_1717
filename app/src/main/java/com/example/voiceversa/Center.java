@@ -71,6 +71,7 @@
     import java.util.Objects;
     import java.util.Set;
 
+
     public class Center extends Fragment {
         public Center(){}
         private static final int REQUEST_CODE_SPEECH_INPUT = 1;
@@ -80,6 +81,7 @@
         EditText source_txt;
         ImageButton mic;
         TextView target_txt;
+
 
 
         private void translateText(int fromlanguageCode, int tolanguageCode, String source_txt){
@@ -136,49 +138,13 @@
                 case "Telugu":
                     languageCode = FirebaseTranslateLanguage.TE;
                     break;
-                case "Urdu":
-                    languageCode = FirebaseTranslateLanguage.UR;
-                    break;
                 case "Tamil":
                     languageCode = FirebaseTranslateLanguage.TA;
                     break;
-                case "Arabic":
-                    languageCode = FirebaseTranslateLanguage.AR;
-                    break;
-                case "Catalan":
-                    languageCode = FirebaseTranslateLanguage.CA;
-                    break;
-                case "Welsh":
-                    languageCode = FirebaseTranslateLanguage.CY;
-                    break;
-                case "German":
-                    languageCode = FirebaseTranslateLanguage.DE;
-                    break;
-                case "Estonian":
-                    languageCode = FirebaseTranslateLanguage.ET;
-                    break;
-                case "Persian":
-                    languageCode = FirebaseTranslateLanguage.FA;
-                    break;
-                case "Indonesian":
-                    languageCode = FirebaseTranslateLanguage.ID;
-                    break;
-                case "Japanese":
-                    languageCode = FirebaseTranslateLanguage.JA;
-                    break;
-                case "Latvian":
-                    languageCode = FirebaseTranslateLanguage.LV;
-                    break;
-                case "Slovenian":
-                    languageCode = FirebaseTranslateLanguage.SL;
-                    break;
-                case "Swedish":
-                    languageCode = FirebaseTranslateLanguage.SV;
+                case "Punjabi":
+                    String punjabi = "pa"; //abhi filhal
                     break;
 
-                case "Turkish":
-                    languageCode = FirebaseTranslateLanguage.TR;
-                    break;
                 default:
                     languageCode = 0;
             }
@@ -206,8 +172,8 @@
             target_txt = view.findViewById(R.id.target_txt);
             mic=view.findViewById(R.id.mic_btn);
 
-            String[] source_list = {"From","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu", "Urdu", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
-            String[] target_list = {"To","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu", "Urdu", "Arabic", "Catalan", "Welsh", "German", "Estonian", "Persian", "Indonesian", "Japanese", "Latvian", "Slovenian", "Swedish", "Tamil", "Turkish"};
+            String[] source_list = {"From","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
+            String[] target_list = {"To","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
 
             ArrayAdapter<String> source_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, source_list);
             ArrayAdapter<String> target_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, target_list);

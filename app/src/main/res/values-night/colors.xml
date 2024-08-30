@@ -9,4 +9,9 @@
     <color name="correct">#00FF00</color>
     <color name="grey">#3b3b3b</color>
     <color name="inverse">#FFFFFFFF</color>
+    <color name = "bg3">#000000</color>
+    <color name = "bg2">#000000</color>
+    <color name = "bg1">#000000</color>
+
+
 </resources>
