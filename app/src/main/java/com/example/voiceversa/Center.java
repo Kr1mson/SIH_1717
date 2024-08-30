@@ -158,12 +158,12 @@
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_center, container, false);
-            ConstraintLayout constraintLayout = view.findViewById(R.id.constraint_center);
-
-            AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
-            animationDrawable.setEnterFadeDuration(2500);
-            animationDrawable.setExitFadeDuration(5000);
-            animationDrawable.start();
+//            ConstraintLayout constraintLayout = view.findViewById(R.id.constraint_center);
+//
+//            AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
+//            animationDrawable.setEnterFadeDuration(2500);
+//            animationDrawable.setExitFadeDuration(5000);
+//            animationDrawable.start();
             TransitionInflater tinflater = TransitionInflater.from(requireContext());
             setExitTransition(tinflater.inflateTransition(R.transition.fade_out));
             setEnterTransition(tinflater.inflateTransition(R.transition.fade_out));
