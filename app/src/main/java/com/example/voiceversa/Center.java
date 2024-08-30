@@ -72,6 +72,8 @@
     import java.util.Set;
 
 
+
+
     public class Center extends Fragment {
         public Center(){}
         private static final int REQUEST_CODE_SPEECH_INPUT = 1;
@@ -142,7 +144,7 @@
                     languageCode = FirebaseTranslateLanguage.TA;
                     break;
                 case "Punjabi":
-                    String punjabi = "pa"; //abhi filhal
+                    languageCode = 69; //abhi filhal
                     break;
 
                 default:
@@ -248,7 +250,15 @@
                     target_txt.setText("");
                     if(source_txt.getText().toString().isEmpty()){
                         Toast.makeText(getContext(),"Please enter text for translation",Toast.LENGTH_SHORT).show();
-                    }else if (fromlanguageCode ==0) {
+
+                    }else if(fromlanguageCode == 69 || tolanguageCode == 69){
+                        if(fromlanguageCode==69){
+                            String punjabi = "pa";
+
+                        }
+
+                    }
+                    else if (fromlanguageCode ==0) {
                         Toast.makeText(getContext(),"Please select the source language",Toast.LENGTH_SHORT).show();
                     }
                     else if (tolanguageCode ==0) {
