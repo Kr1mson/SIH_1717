@@ -104,23 +104,6 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
 
         }else if (itemId == R.id.nav_edtProfile) {
             Toast.makeText(this, "Edit", Toast.LENGTH_SHORT).show();
-        }else if (itemId == R.id.nav_logout) {
-            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
-            /*MaterialAlertDialogBuilder dialog =new MaterialAlertDialogBuilder(this)
-                    .setTitle("Logging Out").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            FirebaseAuth.getInstance().signOut();
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
-                            startActivity(intent);
-                        }
-                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    }).setMessage("Do you want to Log Out?");
-            dialog.show();*/
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
