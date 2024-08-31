@@ -16,7 +16,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled =true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -45,20 +45,14 @@ dependencies {
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation ("com.google.firebase:firebase-ml-natural-language:22.0.1")
     implementation ("com.google.firebase:firebase-ml-natural-language-translate-model:20.0.9")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.13.1")
     implementation ("com.google.mlkit:language-id:17.0.6")
-    implementation ("com.google.cloud:google-cloud-speech:1.29.1")
-    implementation ("com.google.auth:google-auth-library-oauth2-http:0.26.0")
-    implementation ("io.grpc:grpc-okhttp:1.38.1")
-    implementation ("io.grpc:grpc-stub:1.38.1")
-    implementation ("com.google.android.tts:tts:1.1.1")
-    implementation ("com.google.android.gms:play-services-tts:20.2.0")
 
 
 
