@@ -64,6 +64,11 @@
     import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
     import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
     import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
+    import com.google.mlkit.nl.languageid.LanguageIdentification;
+    import com.google.mlkit.nl.languageid.LanguageIdentifier;
+
+    import org.json.JSONArray;
+    import org.json.JSONObject;
 
     import java.util.ArrayList;
     import java.util.HashSet;
@@ -71,7 +76,10 @@
     import java.util.Objects;
     import java.util.Set;
 
-
+    import okhttp3.OkHttpClient;
+    import okhttp3.Request;
+    import okhttp3.RequestBody;
+    import okhttp3.Response;
 
 
     public class Center extends Fragment {
@@ -82,7 +90,7 @@
         Spinner source, target;
         EditText source_txt;
         ImageButton mic;
-        TextView target_txt;
+        TextView target_txt,lang_txt;
 
 
 
@@ -152,6 +160,28 @@
             }
             return languageCode;
         }
+        public int getDetectedLanguageCode(String detectedLang) {
+            switch (detectedLang) {
+                case "en":
+                    return FirebaseTranslateLanguage.EN;
+                case "hi":
+                    return FirebaseTranslateLanguage.HI;
+                case "gu":
+                    return FirebaseTranslateLanguage.GU;
+                case "kn":
+                    return FirebaseTranslateLanguage.KN;
+                case "mr":
+                    return FirebaseTranslateLanguage.MR;
+                case "te":
+                    return FirebaseTranslateLanguage.TE;
+                case "ta":
+                    return FirebaseTranslateLanguage.TA;
+                case "pa": // Assuming 69 is for Punjabi
+                    return 69;
+                default:
+                    return FirebaseTranslateLanguage.EN; // Default to English if language is not supported
+            }
+        }
 
 
         @Override
@@ -173,6 +203,7 @@
             source_txt = view.findViewById(R.id.source_txt);
             target_txt = view.findViewById(R.id.target_txt);
             mic=view.findViewById(R.id.mic_btn);
+            lang_txt = view.findViewById(R.id.lang_txt);
 
             String[] source_list = {"From","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
             String[] target_list = {"To","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
@@ -185,6 +216,8 @@
 
             source.setAdapter(source_adapter);
             target.setAdapter(target_adapter);
+            LanguageIdentifier languageIdentifier = LanguageIdentification.getClient();
+
 
             source.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -248,25 +281,39 @@
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     target_txt.setText("");
-                    if(source_txt.getText().toString().isEmpty()){
-                        Toast.makeText(getContext(),"Please enter text for translation",Toast.LENGTH_SHORT).show();
+                    lang_txt.setText("");
+                    if (source_txt.getText().toString().isEmpty()) {
+                        Toast.makeText(getContext(), "Please enter text for translation", Toast.LENGTH_SHORT).show();
+                    } else if (fromlanguageCode == 69 || tolanguageCode == 69) {
+                        // Use Bhashini API for Punjabi translation or any other language not supported by Firebase
+                        Toast.makeText(getContext(),"Under development",Toast.LENGTH_SHORT).show();
+                        } else {
+                        // Use Firebase ML Kit for other translations
+                        translateText(fromlanguageCode, tolanguageCode, source_txt.getText().toString());
+                        languageIdentifier.identifyLanguage(source_txt.getText().toString()).addOnSuccessListener(new OnSuccessListener<String>() {
+                            @Override
+                            public void onSuccess(@Nullable String languageCode) {
+                                if (languageCode.equals("und")) {
+                                    Log.i(TAG, "Can't identify language.");
+                                    lang_txt.setText("Can't identify language");
 
-                    }else if(fromlanguageCode == 69 || tolanguageCode == 69){
-                        if(fromlanguageCode==69){
-                            String punjabi = "pa";
+                                } else {
+                                    Log.i(TAG, "Language: " + languageCode);
+                                    lang_txt.setText(languageCode);
+                                    fromlanguageCode = getDetectedLanguageCode(languageCode);
+                                }
+                            }
+                                })
+                                .addOnFailureListener(
+                                        new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
 
-                        }
+                                            }
+                                        });
 
                     }
-                    else if (fromlanguageCode ==0) {
-                        Toast.makeText(getContext(),"Please select the source language",Toast.LENGTH_SHORT).show();
-                    }
-                    else if (tolanguageCode ==0) {
-                        Toast.makeText(getContext(),"Please select the target language",Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        translateText(fromlanguageCode,tolanguageCode,source_txt.getText().toString());
-                    }
+
                 }
 
                 @Override
