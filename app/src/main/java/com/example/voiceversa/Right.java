@@ -101,12 +101,12 @@ public class Right extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_right, container, false);
-        ConstraintLayout constraintLayout = view.findViewById(R.id.constraint_right);
-
-        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(2500);
-        animationDrawable.setExitFadeDuration(5000);
-        animationDrawable.start();
+//        ConstraintLayout constraintLayout = view.findViewById(R.id.constraint_right);
+//
+//        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
+//        animationDrawable.setEnterFadeDuration(2500);
+//        animationDrawable.setExitFadeDuration(5000);
+//        animationDrawable.start();
         TransitionInflater tinflater = TransitionInflater.from(requireContext());
 
         setExitTransition(tinflater.inflateTransition(R.transition.slide_right));

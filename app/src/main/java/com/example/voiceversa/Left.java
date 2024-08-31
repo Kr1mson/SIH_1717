@@ -23,12 +23,12 @@ public class Left extends Fragment {
         TransitionInflater tinflater = TransitionInflater.from(requireContext());
         setExitTransition(tinflater.inflateTransition(R.transition.slide_left));
         setEnterTransition(tinflater.inflateTransition(R.transition.slide_left));
-        ConstraintLayout constraintLayout = view.findViewById(R.id.constraint_dashboard);
-
-        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(2500);
-        animationDrawable.setExitFadeDuration(5000);
-        animationDrawable.start();
+//        ConstraintLayout constraintLayout = view.findViewById(R.id.constraint_dashboard);
+//
+//        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
+//        animationDrawable.setEnterFadeDuration(2500);
+//        animationDrawable.setExitFadeDuration(5000);
+//        animationDrawable.start();
         return view;
     }
 }
