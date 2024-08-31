@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,11 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
         SharedPreferences preferences_email = getSharedPreferences("user_credentials", MODE_PRIVATE);
         String username = preferences_email.getString("name", null);
         String emailid = preferences_email.getString("email", null);
-
+        LinearLayout nav_gradient=headerView.findViewById(R.id.nav_linear);
+        AnimationDrawable animationDrawable1 = (AnimationDrawable) nav_gradient.getBackground();
+        animationDrawable1.setEnterFadeDuration(2500);
+        animationDrawable1.setExitFadeDuration(5000);
+        animationDrawable1.start();
         name = headerView.findViewById(R.id.username);
         email = headerView.findViewById(R.id.email_nav);
         name.setText(username);

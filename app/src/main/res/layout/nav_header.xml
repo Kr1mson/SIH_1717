@@ -6,7 +6,8 @@
     android:layout_height="176dp"
     android:gravity="bottom"
     android:padding="16dp"
-    android:background="@color/prim"
+    android:id="@+id/nav_linear"
+    android:background="@drawable/gradient_list"
     android:theme="@style/Theme.VoiceVersa">
 
     <ImageView

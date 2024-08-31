@@ -90,7 +90,7 @@
         Spinner source, target;
         EditText source_txt;
         ImageButton mic;
-        TextView target_txt,lang_txt;
+        TextView target_txt;
 
 
 
@@ -203,9 +203,9 @@
             source_txt = view.findViewById(R.id.source_txt);
             target_txt = view.findViewById(R.id.target_txt);
             mic=view.findViewById(R.id.mic_btn);
-            lang_txt = view.findViewById(R.id.lang_txt);
 
-            String[] source_list = {"From","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
+
+            String[] source_list = {"Auto-detect","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
             String[] target_list = {"To","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
 
             ArrayAdapter<String> source_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, source_list);
@@ -281,7 +281,6 @@
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     target_txt.setText("");
-                    lang_txt.setText("");
                     if (source_txt.getText().toString().isEmpty()) {
                         Toast.makeText(getContext(), "Please enter text for translation", Toast.LENGTH_SHORT).show();
                     } else if (fromlanguageCode == 69 || tolanguageCode == 69) {
@@ -295,12 +294,49 @@
                             public void onSuccess(@Nullable String languageCode) {
                                 if (languageCode.equals("und")) {
                                     Log.i(TAG, "Can't identify language.");
-                                    lang_txt.setText("Can't identify language");
 
                                 } else {
                                     Log.i(TAG, "Language: " + languageCode);
-                                    lang_txt.setText(languageCode);
                                     fromlanguageCode = getDetectedLanguageCode(languageCode);
+                                    String selection;
+                                    int position;
+                                    switch (languageCode){
+                                        case "en":
+                                            selection="English";
+                                            position=source_adapter.getPosition(selection);
+                                            source.setSelection(position);
+                                            break;
+                                        case "hi":
+                                            selection="Hindi";
+                                            position=source_adapter.getPosition(selection);
+                                            source.setSelection(position);
+                                            break;
+                                        case "gu":
+                                            selection="Gujarati";
+                                            position=source_adapter.getPosition(selection);
+                                            source.setSelection(position);
+                                            break;
+                                        case "kn":
+                                            selection="Kannada";
+                                            position=source_adapter.getPosition(selection);
+                                            source.setSelection(position);
+                                            break;
+                                        case "mr":
+                                            selection="Marathi";
+                                            position=source_adapter.getPosition(selection);
+                                            source.setSelection(position);
+                                            break;
+                                        case "te":
+                                            selection="Telugu";
+                                            position=source_adapter.getPosition(selection);
+                                            source.setSelection(position);
+                                            break;
+                                        case "ta":
+                                            selection="Tamil";
+                                            position=source_adapter.getPosition(selection);
+                                            source.setSelection(position);
+                                            break;
+                                    }
                                 }
                             }
                                 })
