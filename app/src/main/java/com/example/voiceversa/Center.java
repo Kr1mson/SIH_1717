@@ -2,6 +2,8 @@
     
     import static android.app.Activity.RESULT_OK;
     import static android.content.ContentValues.TAG;
+    import static android.content.Context.CLIPBOARD_SERVICE;
+    import static androidx.core.content.ContextCompat.getSystemService;
     import static androidx.core.content.ContextCompat.startForegroundService;
     
     import android.Manifest;
@@ -10,7 +12,9 @@
     import android.annotation.TargetApi;
     import android.app.NotificationChannel;
     import android.app.NotificationManager;
-    
+
+    import android.content.ClipData;
+    import android.content.ClipboardManager;
     import android.content.Context;
     
     import android.content.Intent;
@@ -89,8 +93,10 @@
         int languageCode, fromlanguageCode, tolanguageCode = 0;
         Spinner source, target;
         EditText source_txt;
-        ImageButton mic;
+        ImageButton mic,paste;
         TextView target_txt;
+        ClipboardManager clipboard;
+        ClipData clip;
 
 
 
@@ -203,6 +209,7 @@
             source_txt = view.findViewById(R.id.source_txt);
             target_txt = view.findViewById(R.id.target_txt);
             mic=view.findViewById(R.id.mic_btn);
+            paste=view.findViewById(R.id.paste_btn);
 
 
             String[] source_list = {"Auto-detect","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
@@ -241,6 +248,15 @@
 
                 }
             });
+            paste.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clipboard = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
+                    clip = ClipData.newPlainText("text", target_txt.getText().toString());
+                    clipboard.setPrimaryClip(clip);
+                }
+            });
+
 
 
 
@@ -286,59 +302,57 @@
                     } else if (fromlanguageCode == 69 || tolanguageCode == 69) {
                         // Use Bhashini API for Punjabi translation or any other language not supported by Firebase
                         Toast.makeText(getContext(),"Under development",Toast.LENGTH_SHORT).show();
-                        } else {
-                        // Use Firebase ML Kit for other translations
-                        translateText(fromlanguageCode, tolanguageCode, source_txt.getText().toString());
+                    } else {
                         languageIdentifier.identifyLanguage(source_txt.getText().toString()).addOnSuccessListener(new OnSuccessListener<String>() {
-                            @Override
-                            public void onSuccess(@Nullable String languageCode) {
-                                if (languageCode.equals("und")) {
-                                    Log.i(TAG, "Can't identify language.");
+                                    @Override
+                                    public void onSuccess(@Nullable String languageCode) {
+                                        if (languageCode.equals("und")) {
+                                            Log.i(TAG, "Can't identify language.");
 
-                                } else {
-                                    Log.i(TAG, "Language: " + languageCode);
-                                    fromlanguageCode = getDetectedLanguageCode(languageCode);
-                                    String selection;
-                                    int position;
-                                    switch (languageCode){
-                                        case "en":
-                                            selection="English";
-                                            position=source_adapter.getPosition(selection);
-                                            source.setSelection(position);
-                                            break;
-                                        case "hi":
-                                            selection="Hindi";
-                                            position=source_adapter.getPosition(selection);
-                                            source.setSelection(position);
-                                            break;
-                                        case "gu":
-                                            selection="Gujarati";
-                                            position=source_adapter.getPosition(selection);
-                                            source.setSelection(position);
-                                            break;
-                                        case "kn":
-                                            selection="Kannada";
-                                            position=source_adapter.getPosition(selection);
-                                            source.setSelection(position);
-                                            break;
-                                        case "mr":
-                                            selection="Marathi";
-                                            position=source_adapter.getPosition(selection);
-                                            source.setSelection(position);
-                                            break;
-                                        case "te":
-                                            selection="Telugu";
-                                            position=source_adapter.getPosition(selection);
-                                            source.setSelection(position);
-                                            break;
-                                        case "ta":
-                                            selection="Tamil";
-                                            position=source_adapter.getPosition(selection);
-                                            source.setSelection(position);
-                                            break;
+                                        } else {
+                                            Log.i(TAG, "Language: " + languageCode);
+                                            fromlanguageCode = getDetectedLanguageCode(languageCode);
+                                            String selection;
+                                            int position;
+                                            switch (languageCode){
+                                                case "en":
+                                                    selection="English";
+                                                    position=source_adapter.getPosition(selection);
+                                                    source.setSelection(position);
+                                                    break;
+                                                case "hi":
+                                                    selection="Hindi";
+                                                    position=source_adapter.getPosition(selection);
+                                                    source.setSelection(position);
+                                                    break;
+                                                case "gu":
+                                                    selection="Gujarati";
+                                                    position=source_adapter.getPosition(selection);
+                                                    source.setSelection(position);
+                                                    break;
+                                                case "kn":
+                                                    selection="Kannada";
+                                                    position=source_adapter.getPosition(selection);
+                                                    source.setSelection(position);
+                                                    break;
+                                                case "mr":
+                                                    selection="Marathi";
+                                                    position=source_adapter.getPosition(selection);
+                                                    source.setSelection(position);
+                                                    break;
+                                                case "te":
+                                                    selection="Telugu";
+                                                    position=source_adapter.getPosition(selection);
+                                                    source.setSelection(position);
+                                                    break;
+                                                case "ta":
+                                                    selection="Tamil";
+                                                    position=source_adapter.getPosition(selection);
+                                                    source.setSelection(position);
+                                                    break;
+                                            }
+                                        }
                                     }
-                                }
-                            }
                                 })
                                 .addOnFailureListener(
                                         new OnFailureListener() {
@@ -347,6 +361,9 @@
 
                                             }
                                         });
+
+                        // Use Firebase ML Kit for other translations
+                        translateText(fromlanguageCode, tolanguageCode, source_txt.getText().toString());
 
                     }
 
