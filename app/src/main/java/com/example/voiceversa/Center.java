@@ -27,6 +27,7 @@
     import android.speech.RecognitionListener;
     import android.speech.RecognizerIntent;
     import android.speech.SpeechRecognizer;
+    import android.speech.tts.TextToSpeech;
     import android.text.Editable;
     import android.text.TextWatcher;
     import android.transition.TransitionInflater;
@@ -89,8 +90,10 @@
         int languageCode, fromlanguageCode, tolanguageCode = 0;
         Spinner source, target;
         EditText source_txt;
-        ImageButton mic;
+        ImageButton mic,speakbtn;
         TextView target_txt;
+        String input_txt,output_text;
+        TextToSpeech mTTS;
 
 
 
@@ -126,6 +129,10 @@
                 }
             });
         }
+        private String getApiKey() {
+            // Replace with your preferred method of retrieving the API key
+            return System.getProperty("API_KEY");
+        }
 
         public int getLanguageCode(String language){
             int languageCode =0;
@@ -159,6 +166,26 @@
                     languageCode = 0;
             }
             return languageCode;
+        }
+        public String getLanguageName(int languageCode){
+            switch (languageCode) {
+                case FirebaseTranslateLanguage.EN:
+                    return "en";
+                case FirebaseTranslateLanguage.HI:
+                    return "hi";
+                case FirebaseTranslateLanguage.GU:
+                    return "gu";
+                case FirebaseTranslateLanguage.KN:
+                    return "kn";
+                case FirebaseTranslateLanguage.MR:
+                    return "mr";
+                case FirebaseTranslateLanguage.TE:
+                    return "te";
+                case FirebaseTranslateLanguage.TA:
+                    return "TA";
+                default:
+                    return "en";
+            }
         }
         public int getDetectedLanguageCode(String detectedLang) {
             switch (detectedLang) {
@@ -194,6 +221,7 @@
 //            animationDrawable.setEnterFadeDuration(2500);
 //            animationDrawable.setExitFadeDuration(5000);
 //            animationDrawable.start();
+
             TransitionInflater tinflater = TransitionInflater.from(requireContext());
             setExitTransition(tinflater.inflateTransition(R.transition.fade_out));
             setEnterTransition(tinflater.inflateTransition(R.transition.fade_out));
@@ -203,7 +231,7 @@
             source_txt = view.findViewById(R.id.source_txt);
             target_txt = view.findViewById(R.id.target_txt);
             mic=view.findViewById(R.id.mic_btn);
-
+            speakbtn = view.findViewById(R.id.speak_btn);
 
             String[] source_list = {"Auto-detect","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
             String[] target_list = {"To","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
@@ -242,10 +270,48 @@
                 }
             });
 
+            input_txt = source_txt.getText().toString();
+
+            speakbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String apiKey = getApiKey();
+                    mTTS = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int status) {
+                            if (status == TextToSpeech.SUCCESS)
+                            {
+                                String langcode = getLanguageName(tolanguageCode);
+                                mTTS.setLanguage(new Locale(langcode));
+                                Locale locale = new Locale(langcode);
+
+                                // Set the language for the TextToSpeech engine
+                                int result = mTTS.setLanguage(locale);
+
+                                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                                    Toast.makeText(getContext(),"Could not generate output",Toast.LENGTH_SHORT).show();
+                                    // You might want to provide a default language or show an error message
+                                } else {
+                                    // Language is supported, proceed with speaking
+                                    output_text = target_txt.getText().toString();
+
+                                    mTTS.speak(output_text, TextToSpeech.QUEUE_FLUSH, null);
+
+                                    Toast.makeText(getContext(),output_text,Toast.LENGTH_SHORT).show();
+                                }
+
+                                // Text-to-speech engine initialized successfully
+                                // Set language, rate, pitch, etc., if needed
+                            } else {
+                                // Text-to-speech engine failed to initialize
+                            }
+
+                        }
+                    });
+                }
+            });
 
 
-
-            String input_txt = source_txt.getText().toString();
             mic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
