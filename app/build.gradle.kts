@@ -53,6 +53,12 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation ("com.google.mlkit:language-id:17.0.6")
+    implementation ("com.google.cloud:google-cloud-speech:1.29.1")
+    implementation ("com.google.auth:google-auth-library-oauth2-http:0.26.0")
+    implementation ("io.grpc:grpc-okhttp:1.38.1")
+    implementation ("io.grpc:grpc-stub:1.38.1")
+    implementation ("com.google.android.tts:tts:1.1.1")
+    implementation ("com.google.android.gms:play-services-tts:20.2.0")
 
 
 
