@@ -27,6 +27,7 @@
     import android.speech.RecognitionListener;
     import android.speech.RecognizerIntent;
     import android.speech.SpeechRecognizer;
+    import android.speech.tts.TextToSpeech;
     import android.text.Editable;
     import android.text.TextWatcher;
     import android.transition.TransitionInflater;
@@ -91,6 +92,7 @@
         EditText source_txt;
         ImageButton mic;
         TextView target_txt,lang_txt;
+        TextToSpeech mTTS;
 
 
 
@@ -182,6 +184,7 @@
                     return FirebaseTranslateLanguage.EN; // Default to English if language is not supported
             }
         }
+
 
 
         @Override
