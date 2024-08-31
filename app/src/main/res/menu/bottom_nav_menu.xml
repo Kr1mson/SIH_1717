@@ -6,12 +6,12 @@
         android:icon="@drawable/analytics"/>
     <item
         android:id="@+id/Center"
-        android:title="Captions"
-        android:icon="@drawable/caption"/>
-    <item
-        android:id="@+id/Right"
         android:title="Translate"
         android:icon="@drawable/translate"/>
+    <item
+        android:id="@+id/Right"
+        android:title="Caption"
+        android:icon="@drawable/caption"/>
 
 
 

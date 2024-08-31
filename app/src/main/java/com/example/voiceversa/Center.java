@@ -281,6 +281,7 @@
                     clipboard = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
                     clip = ClipData.newPlainText("text", target_txt.getText().toString());
                     clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getContext(), "Copied to clipboard", Toast.LENGTH_SHORT).show();
                 }
             });
 
