@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/Left"
-        android:title="Analytics"
+        android:title="Library"
         android:icon="@drawable/analytics"/>
     <item
         android:id="@+id/Center"

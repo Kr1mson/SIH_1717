@@ -37,10 +37,10 @@ public class Left extends Fragment {
 
         CourseGVAdapter adapter = new CourseGVAdapter(getContext(), courseModelArrayList);
         coursesGV.setAdapter(adapter);
-        TransitionInflater tinflater = TransitionInflater.from(requireContext());
-        setExitTransition(tinflater.inflateTransition(R.transition.slide_left));
-        setEnterTransition(tinflater.inflateTransition(R.transition.slide_left));
-//
+//        TransitionInflater tinflater = TransitionInflater.from(requireContext());
+//        setExitTransition(tinflater.inflateTransition(R.transition.slide_left));
+//        setEnterTransition(tinflater.inflateTransition(R.transition.slide_left));
+
         return view;
     }
 }
