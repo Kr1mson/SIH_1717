@@ -239,8 +239,8 @@
             speakbtn = view.findViewById(R.id.speak_btn);
             paste=view.findViewById(R.id.paste_btn);
 
-            String[] source_list = {"Auto-detect","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
-            String[] target_list = {"To","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
+            String[] source_list = {"Auto-detect","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil"};
+            String[] target_list = {"Target","English", "Hindi","Gujarati", "Kannada", "Marathi", "Telugu","Tamil"};
 
             ArrayAdapter<String> source_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, source_list);
             ArrayAdapter<String> target_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, target_list);
