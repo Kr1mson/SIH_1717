@@ -50,6 +50,15 @@
         android:orientation="vertical"
         android:layout_below="@id/meet"
         android:padding="10dp">
+
+        <TextView
+            android:id="@+id/name2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Shivain Singh"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,44 +67,13 @@
             android:textSize="15sp"
             android:textStyle="bold"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Shivain Singh"
-            android:id="@+id/name2"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
-        <TextView
+            android:id="@+id/name3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Kshitiz Saxena"
-            android:id="@+id/name3"
             android:textSize="15sp"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Aditya Sharma"
-            android:id="@+id/name4"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:visibility="visible"/>
+            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Aryaman Gupta"
-            android:id="@+id/name5"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:visibility="visible"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Dishita Chaudhary"
-            android:id="@+id/name6"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:visibility="visible"/>
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
