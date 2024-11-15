@@ -64,9 +64,7 @@ public class Home_Main extends AppCompatActivity implements BottomNavigationView
         animationDrawable1.setExitFadeDuration(5000);
         animationDrawable1.start();
         name = headerView.findViewById(R.id.username);
-        email = headerView.findViewById(R.id.email_nav);
         name.setText(username);
-        email.setText(emailid);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         if (savedInstanceState == null) {

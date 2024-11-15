@@ -15,9 +15,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Model Library"
+            android:text="Supported Languages"
             android:id="@+id/header_library"
-            android:textSize="40dp"
+            android:textSize="35dp"
             android:textStyle="bold"
             android:textColor="@color/inverse"
             android:layout_centerHorizontal="true"
@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Select two languages"
+            android:visibility="invisible"
             android:textSize="20dp"
             android:id="@+id/subheading"
             android:textColor="@color/inverse"
@@ -42,23 +43,24 @@
             android:paddingTop="50dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/subheading"
-            android:layout_above="@id/download_models"
             android:paddingBottom="50dp"
             android:verticalSpacing="6dp"
+
 
             >
 
         </GridView>
 
-        <Button
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="Download"
-            android:backgroundTint="@color/sec"
-            android:textColor="@color/black"
-            android:id="@+id/download_models"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"/>
+<!--        <Button-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Download"-->
+<!--            android:backgroundTint="@color/sec"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:id="@+id/download_models"-->
+<!--            android:visibility="invisible"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_centerHorizontal="true"/>-->
 
 
     </RelativeLayout>

@@ -133,8 +133,8 @@ public class Right extends Fragment {
         source = view.findViewById(R.id.source_spinner);
         target = view.findViewById(R.id.target_spinner);
         windowManager = (WindowManager) requireActivity().getSystemService(Context.WINDOW_SERVICE);
-        String[] source_list = {"From", "English", "Hindi", "Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
-        String[] target_list = {"To", "English", "Hindi", "Gujarati", "Kannada", "Marathi", "Telugu","Tamil","Punjabi"};
+        String[] source_list = {"English"};
+        String[] target_list = {"To", "English", "Hindi", "Gujarati", "Kannada", "Marathi", "Telugu","Tamil"};
         ArrayAdapter<String> source_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, source_list);
         ArrayAdapter<String> target_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, target_list);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getContext());

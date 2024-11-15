@@ -60,7 +60,6 @@ public class CourseGVAdapter extends ArrayAdapter<CourseModel> {
                 // Select only if less than 2 are selected
                 if (selectedPositions.size() < 2) {
                     selectedPositions.add(position);
-                    tickIV.setVisibility(View.VISIBLE);
                 } else {
                     // Optionally, show a message indicating only 2 selections are allowed
                     Toast.makeText(getContext(), "You can only select up to 2 items", Toast.LENGTH_SHORT).show();

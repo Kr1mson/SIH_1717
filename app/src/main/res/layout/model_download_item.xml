@@ -59,6 +59,7 @@
             android:paddingTop="10dp"
             android:paddingStart="10dp"
             android:text="Ver:0.0.0.0"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 

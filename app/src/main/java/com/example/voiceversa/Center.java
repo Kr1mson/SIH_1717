@@ -363,7 +363,6 @@
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     target_txt.setText("");
                     if (source_txt.getText().toString().isEmpty()) {
-                        Toast.makeText(getContext(), "Please enter text for translation", Toast.LENGTH_SHORT).show();
                     } else if (fromlanguageCode == 69 || tolanguageCode == 69) {
                         // Use Bhashini API for Punjabi translation or any other language not supported by Firebase
                         Toast.makeText(getContext(),"Under development",Toast.LENGTH_SHORT).show();
